@@ -33,11 +33,11 @@ async def get_db():
 async def get_db(request: Request):
     return request.app.state.db
 
-@app.lifespan("startup")
+@app.on_event("startup")
 async def startup_event():
     await connect_to_db(app)
 
-@app.lifespan("shutdown")
+@app.on_event("shutdown")
 async def shutdown_event():
     await app.state.db.close()
 
