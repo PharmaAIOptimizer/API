@@ -1,5 +1,10 @@
 # PAPO API
 
+How to run the API locally:
+1. Clone repo
+2. `source venv/bin/activate`
+3. `pip install -r requirements.txt`
+4. `uvicorn app:app --reload`
 
 ## API Calls
 
