@@ -1,22 +1,35 @@
 import mysql.connector
-import bcrypt
+import hashlib
+import os
+import base64
+
 from db import getDBCursor, mydb
 
-def hash_password_bcrypt(password):
-    """Hash a password for storing."""
-    salt = bcrypt.gensalt()
-    return bcrypt.hashpw(password.encode('utf-8'), salt)
+def hash_password_sha256(password):
+    """Hash a password for storing using SHA-256 and a random salt, storing the hash and salt as base64-encoded strings."""
+    salt = os.urandom(32)  # Generate a 32-byte random salt
+    pwdhash = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    # Encode the salt and hash as base64 to get strings
+    salt_str = base64.b64encode(salt).decode('utf-8')
+    pwdhash_str = base64.b64encode(pwdhash).decode('utf-8')
+    # Concatenate salt and hash as strings with a separator
+    storage = salt_str + '$' + pwdhash_str
+    return storage
 
-def verify_password_bcrypt(stored_password_hash, provided_password):
-    """Verify a stored password against one provided by user."""
-    # Ensure stored_password_hash is in byte format
-    if isinstance(stored_password_hash, str):
-        stored_password_hash = stored_password_hash.encode('utf-8')
-    return bcrypt.checkpw(provided_password.encode('utf-8'), stored_password_hash)
+def verify_password_sha256(stored_password, provided_password):
+    """Verify a stored password (stored as a base64-encoded string) against one provided by user using SHA-256."""
+    # Split the stored_password string into salt and hash components
+    salt_str, stored_hash_str = stored_password.split('$')
+    # Decode the salt and hash from base64
+    salt = base64.b64decode(salt_str)
+    stored_hash = base64.b64decode(stored_hash_str)
+    # Hash the provided_password using the extracted salt and compare
+    pwdhash = hashlib.pbkdf2_hmac('sha256', provided_password.encode('utf-8'), salt, 100000)
+    return pwdhash == stored_hash
 
 # Example usage:
-#hashed_bcrypt = hash_password_bcrypt('secure_password')
-#print(verify_password_bcrypt(hashed_bcrypt, 'secure_password'))  # This will return True if the password matches
+#hashed_bcrypt = hash_password_sha256('secure_password')
+#print(verify_password_sha256(hashed_bcrypt, 'secure_password'))  # This will return True if the password matches
 
 # Function to create a new user
 def create_user(username, password, center, permission, employeeid, islocked):
@@ -25,7 +38,7 @@ def create_user(username, password, center, permission, employeeid, islocked):
     
     try:
         # Hash the password
-        password = hash_password_bcrypt(password)
+        password = hash_password_sha256(password)
         # SQL query to insert a new user
         query = "INSERT INTO users (username, password, center, permission, employeeid, islocked) VALUES (%s, %s, %s, %s, %s, %s)"
         values = (username, password, center, permission, employeeid, islocked,)

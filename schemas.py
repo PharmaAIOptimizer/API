@@ -24,14 +24,8 @@ class Login(BaseModel):
 class SessionCookie(BaseModel):
     session_cookie: str
 
-class FileUpload(BaseModel):
-    url: str
-    session_cookie: str
 
-class FileDelete(BaseModel):
-    id: int
-    session_cookie: str
 
-class FileGet(BaseModel):
-    id: int
+class DrugReplacements(BaseModel):
     session_cookie: str
+    drugid: int

@@ -1,9 +1,10 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from schemas import UserCreate, GetUser, DeleteUser, Login, SessionCookie, FileUpload, FileGet, FileDelete
+from schemas import UserCreate, GetUser, DeleteUser, Login, SessionCookie, DrugReplacements
 from userFunctions import create_user, get_user_data_by_name, get_user_data_by_id, delete_user
 from loginFunctions import login, is_session_cookie_valid, logout
+from replacmentsFunctions import replacements
 
 app = FastAPI(docs_url="/documentation", redoc_url=None)
 
@@ -93,6 +94,15 @@ async def user_logout(session_cookie: SessionCookie):
     if is_session_cookie_valid(session_cookie.session_cookie):
         logout(session_cookie.session_cookie)
         return {"message": "User logged out successfully."}
+    else:
+        raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
+    
+# Drug Calls
+@app.get("/drugs/replacements")  # Upload a file
+async def get_drug_replacements(drug_replacements: DrugReplacements):
+    if is_session_cookie_valid(drug_replacements.session_cookie):
+        result = replacements(drug_replacements.drugid)
+        return result
     else:
         raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
 

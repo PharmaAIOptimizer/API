@@ -3,7 +3,7 @@ import time
 import mysql.connector
 
 from db import getDBCursor, mydb
-from userFunctions import get_user_data_by_name, verify_password_bcrypt
+from userFunctions import get_user_data_by_name, verify_password_sha256
 
 def generate_session_cookie(id):
     session_cookie = str(uuid.uuid4())
@@ -37,7 +37,7 @@ def login(username, password):
     user_data = get_user_data_by_name(username)
     
     if user_data:
-        if verify_password_bcrypt(user_data['password'], password):
+        if verify_password_sha256(user_data['password'], password):
             session_cookie, timestamp = generate_session_cookie(user_data['id'])
             user_id = user_data['id']
             insert_session_cookie(user_id, session_cookie, timestamp)
@@ -65,7 +65,7 @@ def is_session_cookie_valid(session_cookie):
         # Fetch the result
         result = mycursor.fetchone()
         
-        if result and int(time.time()) - result[5] < 3600:
+        if result and int(time.time()) - result[8] < 3600:
             print("Session cookie is valid.")
             return True
         else:
