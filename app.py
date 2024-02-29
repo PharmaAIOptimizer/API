@@ -5,7 +5,7 @@ from schemas import UserCreate, GetUser, DeleteUser, Login, SessionCookie, FileU
 from userFunctions import create_user, get_user_data_by_name, get_user_data_by_id, delete_user
 from loginFunctions import login, is_session_cookie_valid, logout
 
-app = FastAPI()
+app = FastAPI(docs_url="/documentation", redoc_url=None)
 
 origins = ["*"]
 app.add_middleware(
