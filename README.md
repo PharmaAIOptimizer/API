@@ -1,6 +1,11 @@
 # PAPO API
 
+
 ## API Calls
+
+    API PUBLIC IP:  44.211.204.255
+
+
 ### Hello World
 ```bash
 curl -X GET "http://127.0.0.1:8000/"
