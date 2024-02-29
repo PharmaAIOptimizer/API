@@ -19,7 +19,7 @@ def verify_password_bcrypt(stored_password_hash, provided_password):
 #print(verify_password_bcrypt(hashed_bcrypt, 'secure_password'))  # This will return True if the password matches
 
 # Function to create a new user
-def create_user(username, password, email):
+def create_user(username, password, center, permission, employeeid, islocked):
     # Get the database cursor
     mycursor = getDBCursor()
     
@@ -27,8 +27,8 @@ def create_user(username, password, email):
         # Hash the password
         password = hash_password_bcrypt(password)
         # SQL query to insert a new user
-        query = "INSERT INTO users (username, password, email) VALUES (%s, %s, %s)"
-        values = (username, password, email)
+        query = "INSERT INTO users (username, password, center, permission, employeeid, islocked) VALUES (%s, %s, %s, %s, %s, %s)"
+        values = (username, password, center, permission, employeeid, islocked,)
         
         # Execute the SQL command
         mycursor.execute(query, values)
@@ -67,9 +67,12 @@ def get_user_data_by_name(username):
                 "id": result[0],
                 "username": result[1],
                 "password": result[2],
-                "email": result[3],
-                "session_cookie": result[4],
-                "session_cookie_timestamp": result[5]
+                "center": result[3],
+                "permission": result[4],
+                "employeeid": result[5],
+                "islocked": result[6],
+                "session_cookie": result[7],
+                "session_cookie_timestamp": result[8],
             }
         else:
             return None
@@ -103,9 +106,12 @@ def get_user_data_by_id(id):
                 "id": result[0],
                 "username": result[1],
                 "password": result[2],
-                "email": result[3],
-                "session_cookie": result[4],
-                "session_cookie_timestamp": result[5]
+                "center": result[3],
+                "permission": result[4],
+                "employeeid": result[5],
+                "islocked": result[6],
+                "session_cookie": result[7],
+                "session_cookie_timestamp": result[8],
             }
         else:
             return None

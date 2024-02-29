@@ -19,7 +19,7 @@ def insert_session_cookie(user_id, session_cookie, timestamp):
     try:
         # SQL query to insert session cookie and timestamp
         query = "UPDATE users SET session_cookie = %s, session_cookie_timestamp = %s WHERE id = %s"
-        values = (session_cookie, timestamp, user_id)
+        values = (session_cookie, timestamp, user_id,)
         
         # Execute the SQL command
         mycursor.execute(query, values)

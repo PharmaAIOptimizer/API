@@ -5,7 +5,10 @@ from typing import Optional
 class UserCreate(BaseModel):
     username: str
     password: str
-    email: str
+    center: int
+    permission: int
+    employeeid: int
+    islocked: bool
 
 class GetUser(BaseModel):
     username: Optional[str] = None
@@ -17,13 +20,6 @@ class DeleteUser(BaseModel):
 class Login(BaseModel):
     username: str
     password: str
-
-class Logout(BaseModel):
-    username: str
-    password: str
-
-class LockUser(BaseModel):
-    id: int
 
 class SessionCookie(BaseModel):
     session_cookie: str
