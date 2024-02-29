@@ -14,7 +14,7 @@ curl -X POST "http://127.0.0.1:8000/user" -H "Content-Type: application/json" -d
 
 #### Get User by ID
 ```bash
-curl -X GET "http://127.0.0.1:8000/user?id=2"
+curl -X GET "http://127.0.0.1:8000/user?id=1"
 ````
 
 #### Get User by Username

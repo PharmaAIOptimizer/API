@@ -8,5 +8,4 @@ mydb = psycopg2.connect(database = "Users",
 
 def getDBCursor():
     mycursor = mydb.cursor()
-    # mycursor.execute("USE DocumentAnalyser")
     return mycursor
