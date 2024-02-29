@@ -27,7 +27,7 @@ async def test():
 async def hello_world():
     return {"about": "Welcome to PAPO API! -- See /documentation for more details" }
 
-# User Calls
+# User Calls (CRUD Operations)
 @app.post("/user/create") # Creating a new user
 async def create_new_user(user: UserCreate):
     create_user(

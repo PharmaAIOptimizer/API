@@ -2,9 +2,10 @@
 
 How to run the API locally:
 1. Clone repo
-2. `source venv/bin/activate`
-3. `pip install -r requirements.txt`
-4. `uvicorn main:app --reload`
+2. `virtualenv venv`
+3. `source venv/bin/activate`
+4. `pip install -r requirements.txt`
+5. `uvicorn main:app --reload`
 
 ## API Calls
 
