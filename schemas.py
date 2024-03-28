@@ -28,3 +28,6 @@ class DrugReplacements(BaseModel):
     session_cookie: str
     drugid: int
     isMultiple: bool
+    w1: float
+    w2: float
+    w3: float
