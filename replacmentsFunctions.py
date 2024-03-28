@@ -5,7 +5,7 @@ from Analysis.getReplacements import getReplacements
 from Analysis.CleanData import cleanData
 
 
-def replacements(number):
+def replacements(number, isMultiple=False):
     filename = 'Analysis/Daily Snapshot.csv'
 
     # Clean the data
@@ -15,7 +15,7 @@ def replacements(number):
     data, input = ExactDrugAlgoFunction(number, data_cleaned)
 
     # get replacements
-    replacements = getReplacements(input, data)
+    replacements = getReplacements(input, data, isMultiple)
 
     # JSON format
     replacements = replacements.to_json(orient='records')

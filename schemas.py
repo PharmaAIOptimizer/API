@@ -24,8 +24,7 @@ class Login(BaseModel):
 class SessionCookie(BaseModel):
     session_cookie: str
 
-
-
 class DrugReplacements(BaseModel):
     session_cookie: str
     drugid: int
+    isMultiple: bool
