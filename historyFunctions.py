@@ -1,4 +1,5 @@
 import pandas as pd
+import time
 import mysql.connector
 
 from db import getDBCursor, mydb
@@ -13,8 +14,8 @@ def insertHistory(sessionCookie, number, w1, w2, w3, replacements):
         id = sessionCookie.split('-')[0]
 
         # SQL query to insert into search history
-        query = "INSERT INTO historys (user_id, item_number, w_1, w_2, w_3, results, favorite) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        values = (id, number, w1, w2, w3, replacements, False,)
+        query = "INSERT INTO historys (user_id, item_number, w_1, w_2, w_3, results, favorite, timestamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+        values = (id, number, w1, w2, w3, replacements, False, time.time())
 
         # Execute the SQL command
         mycursor.execute(query, values)
