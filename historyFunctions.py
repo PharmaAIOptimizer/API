@@ -37,7 +37,7 @@ def getHistory(sessionCookie):
         id = sessionCookie.split('-')[0]
 
         # SQL query to get search history
-        query = "SELECT * FROM historys WHERE user_id = %s"
+        query = "SELECT item_number, w_1, w_2, w_3, favorite, timestamp, results FROM historys WHERE user_id = %s"
         values = (id,)
 
         # Execute the SQL command
@@ -46,18 +46,20 @@ def getHistory(sessionCookie):
         # Fetch all the results
         result = mycursor.fetchall()
 
-        # Get the column names
-        columns = [desc[0] for desc in mycursor.description]
+        return result
 
-        # Create a list of dictionaries, where each dictionary represents a row
-        data = []
-        for row in result:
-            data.append(dict(zip(columns, row)))
+        # # Get the column names
+        # columns = [desc[0] for desc in mycursor.description]
 
-        # Convert the list of dictionaries to JSON
-        json_result = json.dumps(data)
+        # # Create a list of dictionaries, where each dictionary represents a row
+        # data = []
+        # for row in result:
+        #     data.append(dict(zip(columns, row)))
 
-        return json_result
+        # # Convert the list of dictionaries to JSON
+        # json_result = json.dumps(data)
+
+        # return json_result
     except mysql.connector.Error as err:
         print(f"Error: {err}")
     finally:
@@ -119,7 +121,7 @@ def getFavorites(sessionCookie):
         id = sessionCookie.split('-')[0]
 
         # SQL query to get favorite history
-        query = "SELECT * FROM historys WHERE user_id = %s AND favorite = %s"
+        query = "SELECT item_number, w_1, w_2, w_3, favorite, timestamp, results FROM historys WHERE user_id = %s AND favorite = %s"
         values = (id, True,)
 
         # Execute the SQL command
@@ -128,18 +130,20 @@ def getFavorites(sessionCookie):
         # Fetch all the results
         result = mycursor.fetchall()
 
-        # Get the column names
-        columns = [desc[0] for desc in mycursor.description]
+        return result
 
-        # Create a list of dictionaries, where each dictionary represents a row
-        data = []
-        for row in result:
-            data.append(dict(zip(columns, row)))
+        # # Get the column names
+        # columns = [desc[0] for desc in mycursor.description]
 
-        # Convert the list of dictionaries to JSON
-        json_result = json.dumps(data)
+        # # Create a list of dictionaries, where each dictionary represents a row
+        # data = []
+        # for row in result:
+        #     data.append(dict(zip(columns, row)))
 
-        return json_result
+        # # Convert the list of dictionaries to JSON
+        # json_result = json.dumps(data)
+
+        # return json_result
     except mysql.connector.Error as err:
         print(f"Error: {err}")
     finally:
