@@ -101,7 +101,7 @@ async def delete_user_endpoint(delete_user_request: DeleteUser):
 
 
 # Login Calls
-@app.get("/session/login")  # Login function
+@app.post("/session/login")  # Login function
 async def user_login(login_data: Login):
     try:
         login_result = login(login_data.username, login_data.password)
@@ -221,4 +221,3 @@ if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
     # uvicorn.run(app, host="127.0.0.1", port=8000)
-    
