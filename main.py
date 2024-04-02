@@ -101,7 +101,7 @@ async def delete_user_endpoint(delete_user_request: DeleteUser):
 
 
 # Login Calls
-@app.post("/session/login")  # Login function
+@app.get("/session/login")  # Login function
 async def user_login(login_data: Login):
     try:
         login_result = login(login_data.username, login_data.password)
@@ -140,7 +140,7 @@ async def user_logout(session_cookie: SessionCookie):
         raise HTTPException(status_code=500, detail="Internal server error")
     
 # Drug Calls
-@app.get("/drugs/replacements")  # Upload a file
+@app.post("/drugs/replacements")  # Upload a file
 async def get_drug_replacements(drug_replacements: DrugReplacements):
     try:
         if is_session_cookie_valid(drug_replacements.session_cookie):
@@ -221,3 +221,4 @@ if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
     # uvicorn.run(app, host="127.0.0.1", port=8000)
+    
