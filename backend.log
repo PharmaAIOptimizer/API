@@ -50,3 +50,33 @@ server closed the connection unexpectedly
 2024-04-02 13:21:47,341 - root - INFO - Drug replacements retrieved successfully
 2024-04-02 13:22:16,510 - root - INFO - Drug replacements retrieved successfully
 2024-04-02 13:22:27,684 - root - INFO - Drug replacements retrieved successfully
+2024-04-02 17:28:51,651 - root - INFO - Accessed the root endpoint
+2024-04-02 17:40:47,883 - root - INFO - Accessed the root endpoint
+2024-04-02 17:51:02,617 - root - INFO - User logged in: test99
+2024-04-02 17:52:43,849 - root - INFO - Drug replacements retrieved successfully
+2024-04-02 17:53:58,740 - root - INFO - User logged in: test99
+2024-04-02 17:54:17,335 - root - INFO - Drug replacements retrieved successfully
+2024-04-02 17:54:35,652 - root - INFO - User history retrieved successfully
+2024-04-02 17:55:11,640 - root - INFO - User logged in: hababou@bu.edu
+2024-04-02 17:55:21,999 - root - INFO - User history retrieved successfully
+2024-04-02 17:55:35,762 - root - INFO - User logged in: hababou@bu.edu
+2024-04-02 17:55:54,221 - root - INFO - Drug replacements retrieved successfully
+2024-04-02 17:55:57,459 - root - WARNING - Invalid or expired session cookie for getting history
+2024-04-02 17:55:57,460 - root - ERROR - Error retrieving user history: 401: Session cookie is invalid or expired.
+2024-04-02 17:56:00,323 - root - WARNING - Invalid or expired session cookie for getting history
+2024-04-02 17:56:00,323 - root - ERROR - Error retrieving user history: 401: Session cookie is invalid or expired.
+2024-04-02 17:56:13,634 - root - INFO - User history retrieved successfully
+2024-04-02 18:08:55,096 - root - INFO - Accessed the root endpoint
+2024-04-02 18:11:56,303 - root - INFO - Drug replacements retrieved successfully
+2024-04-02 18:22:42,264 - root - WARNING - Invalid or expired session cookie for drug replacements
+2024-04-02 18:22:42,264 - root - ERROR - Error retrieving drug replacements: 401: Session cookie is invalid or expired.
+2024-04-02 18:24:21,193 - root - WARNING - Invalid or expired session cookie for drug replacements
+2024-04-02 18:24:21,193 - root - ERROR - Error retrieving drug replacements: 401: Session cookie is invalid or expired.
+2024-04-02 18:25:48,797 - root - INFO - User logged in: test99
+2024-04-02 18:26:02,755 - root - INFO - Drug replacements retrieved successfully
+2024-04-02 18:26:07,755 - root - INFO - Drug replacements retrieved successfully
+2024-04-02 18:33:48,676 - root - WARNING - Invalid or expired session cookie for drug replacements
+2024-04-02 18:33:48,676 - root - ERROR - Error retrieving drug replacements: 401: Session cookie is invalid or expired.
+2024-04-02 18:34:20,277 - root - WARNING - Invalid or expired session cookie for drug replacements
+2024-04-02 18:34:20,277 - root - ERROR - Error retrieving drug replacements: 401: Session cookie is invalid or expired.
+2024-04-02 18:34:58,586 - root - INFO - Drug replacements retrieved successfully

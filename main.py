@@ -101,7 +101,7 @@ async def delete_user_endpoint(delete_user_request: DeleteUser):
 
 
 # Login Calls
-@app.get("/session/login")  # Login function
+@app.post("/session/login")  # Login function
 async def user_login(login_data: Login):
     try:
         login_result = login(login_data.username, login_data.password)
