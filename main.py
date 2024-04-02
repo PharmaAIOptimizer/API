@@ -101,7 +101,12 @@ async def user_logout(session_cookie: SessionCookie):
 @app.get("/drugs/replacements")  # Upload a file
 async def get_drug_replacements(drug_replacements: DrugReplacements):
     if is_session_cookie_valid(drug_replacements.session_cookie):
-        result = replacements(drug_replacements.drugid, drug_replacements.isMultiple, drug_replacements.w1, drug_replacements.w2, drug_replacements.w3)
+        result = replacements(drug_replacements.session_cookie,
+                              drug_replacements.drugid, 
+                              drug_replacements.isMultiple,
+                              drug_replacements.w1, 
+                              drug_replacements.w2, 
+                              drug_replacements.w3)
         return result
     else:
         raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
