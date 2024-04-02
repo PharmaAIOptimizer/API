@@ -1,10 +1,11 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from schemas import UserCreate, GetUser, DeleteUser, Login, SessionCookie, DrugReplacements
+from schemas import UserCreate, GetUser, DeleteUser, Login, SessionCookie, DrugReplacements, Favorite
 from userFunctions import create_user, get_user_data_by_name, get_user_data_by_id, delete_user
 from loginFunctions import login, is_session_cookie_valid, logout
 from replacmentsFunctions import replacements
+from historyFunctions import getHistory, addToFavorites, removeFromFavorites, getFavorites
 
 app = FastAPI(docs_url="/documentation", redoc_url=None)
 
@@ -108,6 +109,39 @@ async def get_drug_replacements(drug_replacements: DrugReplacements):
                               drug_replacements.w2, 
                               drug_replacements.w3)
         return result
+    else:
+        raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
+    
+# History Calls
+@app.get("/history/get")  # Get the history of a user
+async def get_user_history(session_cookie: SessionCookie):
+    if is_session_cookie_valid(session_cookie.session_cookie):
+        history = getHistory(session_cookie.session_cookie)
+        return history
+    else:
+        raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
+    
+@app.post("/history/add_to_favorites")  # Add a history item to favorites
+async def add_to_favorites(favorite_data: Favorite):
+    if is_session_cookie_valid(favorite_data.session_cookie):
+        addToFavorites(favorite_data.session_cookie, favorite_data.history_id)
+        return {"message": "Item added to favorites."}
+    else:
+        raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
+    
+@app.post("/history/remove_from_favorites")  # Remove a history item from favorites
+async def remove_from_favorites(favorite_data: Favorite):
+    if is_session_cookie_valid(favorite_data.session_cookie):
+        removeFromFavorites(favorite_data.session_cookie, favorite_data.history_id)
+        return {"message": "Item removed from favorites."}
+    else:
+        raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
+    
+@app.get("/history/get_favorites")  # Get the favorites of a user
+async def get_user_favorites(session_cookie: SessionCookie):
+    if is_session_cookie_valid(session_cookie.session_cookie):
+        favorites = getFavorites(session_cookie.session_cookie)
+        return favorites
     else:
         raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
 

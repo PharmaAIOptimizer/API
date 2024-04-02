@@ -31,3 +31,7 @@ class DrugReplacements(BaseModel):
     w1: float
     w2: float
     w3: float
+
+class Favorite(BaseModel):
+    session_cookie: str
+    history_id: int
