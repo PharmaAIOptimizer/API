@@ -8,10 +8,15 @@ from loginFunctions import login, is_session_cookie_valid, logout
 from replacmentsFunctions import replacements
 from historyFunctions import getHistory, addToFavorites, removeFromFavorites, getFavorites
 
+import ssl
+
 # Setup logging
 logging.basicConfig(filename='backend.log', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 app = FastAPI(docs_url="/documentation", redoc_url=None)
+
+ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+ssl_context.load_cert_chain('./cert.pem', keyfile='./key.pem')
 
 origins = ["*"]
 app.add_middleware(
