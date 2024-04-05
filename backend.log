@@ -81,3 +81,4 @@ server closed the connection unexpectedly
 2024-04-02 18:34:20,277 - root - ERROR - Error retrieving drug replacements: 401: Session cookie is invalid or expired.
 2024-04-02 18:34:58,586 - root - INFO - Drug replacements retrieved successfully
 2024-04-03 17:50:47,447 - root - INFO - Accessed the root endpoint
+2024-04-04 19:00:35,484 - root - INFO - Accessed the root endpoint
