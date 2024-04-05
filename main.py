@@ -203,7 +203,7 @@ async def remove_from_favorites(favorite_data: Favorite):
         logging.error(f"Error removing item from favorites: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
     
-@app.get("/history/get_favorites")  # Get the favorites of a user
+@app.post("/history/get_favorites")  # Get the favorites of a user
 async def get_user_favorites(session_cookie: SessionCookie):
     try:
         if is_session_cookie_valid(session_cookie.session_cookie):
