@@ -5,7 +5,7 @@ import mysql.connector
 from db import getDBCursor, mydb
 import json
 
-def insertHistory(sessionCookie, number, w1, w2, w3, replacements):
+def insertHistory(sessionCookie, number, w1, w2, w3, replacements, isMultiple=False):
     # Get the database cursor
     mycursor = getDBCursor()
 
@@ -14,8 +14,8 @@ def insertHistory(sessionCookie, number, w1, w2, w3, replacements):
         id = sessionCookie.split('-')[0]
 
         # SQL query to insert into search history
-        query = "INSERT INTO historys (user_id, item_number, w_1, w_2, w_3, results, favorite, timestamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        values = (id, number, w1, w2, w3, replacements, False, time.time())
+        query = "INSERT INTO historys (user_id, item_number, w_1, w_2, w_3, results, favorite, timestamp, isMultiple) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        values = (id, number, w1, w2, w3, replacements, False, time.time(), isMultiple,)
 
         # Execute the SQL command
         mycursor.execute(query, values)
@@ -37,7 +37,7 @@ def getHistory(sessionCookie):
         id = sessionCookie.split('-')[0]
 
         # SQL query to get search history
-        query = "SELECT item_number, w_1, w_2, w_3, favorite, timestamp, results FROM historys WHERE user_id = %s"
+        query = "SELECT id, item_number, w_1, w_2, w_3, isMultiple, timestamp, results FROM historys WHERE user_id = %s"
         values = (id,)
 
         # Execute the SQL command
@@ -121,7 +121,7 @@ def getFavorites(sessionCookie):
         id = sessionCookie.split('-')[0]
 
         # SQL query to get favorite history
-        query = "SELECT item_number, w_1, w_2, w_3, favorite, timestamp, results FROM historys WHERE user_id = %s AND favorite = %s"
+        query = "SELECT id, item_number, w_1, w_2, w_3, isMultiple, timestamp, results FROM historys WHERE user_id = %s AND favorite = %s"
         values = (id, True,)
 
         # Execute the SQL command

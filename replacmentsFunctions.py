@@ -33,7 +33,7 @@ def replacements(sessionCookie, number, isMultiple=False, w1=0.34, w2=0.33, w3=0
     replacements = replacements.to_json(orient='records')
 
     # Save the history
-    insertHistory(sessionCookie, number, w1, w2, w3, replacements)
+    insertHistory(sessionCookie, number, w1, w2, w3, replacements, isMultiple)
 
     # Remove file
     os.remove(filename)
