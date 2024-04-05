@@ -160,7 +160,7 @@ async def get_drug_replacements(drug_replacements: DrugReplacements):
         raise HTTPException(status_code=500, detail="Internal server error")
     
 # History Calls
-@app.get("/history/get")  # Get the history of a user
+@app.post("/history/get")  # Get the history of a user
 async def get_user_history(session_cookie: SessionCookie):
     try:
         if is_session_cookie_valid(session_cookie.session_cookie):
