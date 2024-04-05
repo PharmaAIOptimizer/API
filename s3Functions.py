@@ -83,6 +83,26 @@ def find_object_with_highest_number(bucket_name):
     
     return object_with_max_number
 
+def upload_snapshot(file_name):
+    # Get the latest snapshot number
+    object_name = find_object_with_highest_number('dailysupplysnapshot')
+
+    # Increment the number
+    if object_name:
+        match = re.search(r'(\d+)(?!.*\d)', object_name)
+        if match:
+            number = int(match.group())
+            number += 1
+            object_name = object_name.replace(str(match.group()), str(number))
+    else:
+        object_name = 'snapshot_1'
+
+    # Upload the file
+    if upload_file(file_name, 'dailysupplysnapshot', object_name):
+        print(f"Uploaded {file_name} as {object_name}")
+    else:
+        print("Upload failed")
+
 
 
 # Replace 'my_bucket' with your S3 bucket name
@@ -105,8 +125,8 @@ def find_object_with_highest_number(bucket_name):
 # else:
 #     print("Deletion failed")
 
-highest_number_object = find_object_with_highest_number('dailysupplysnapshot')
-if highest_number_object:
-    print(f"The object with the highest number: {highest_number_object}")
-else:
-    print("No objects found or no numeric endings detected.")
+# highest_number_object = find_object_with_highest_number('dailysupplysnapshot')
+# if highest_number_object:
+#     print(f"The object with the highest number: {highest_number_object}")
+# else:
+#     print("No objects found or no numeric endings detected.")

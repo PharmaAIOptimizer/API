@@ -1,12 +1,13 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 
-from schemas import UserCreate, GetUser, DeleteUser, Login, SessionCookie, DrugReplacements, Favorite
+from schemas import UserCreate, GetUser, DeleteUser, Login, SessionCookie, DrugReplacements, Favorite, UploadSnapshot
 from userFunctions import create_user, get_user_data_by_name, get_user_data_by_id, delete_user
 from loginFunctions import login, is_session_cookie_valid, logout
 from replacmentsFunctions import replacements
 from historyFunctions import getHistory, addToFavorites, removeFromFavorites, getFavorites
+from s3Functions import upload_snapshot
 
 # Setup logging
 logging.basicConfig(filename='backend.log', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -215,7 +216,30 @@ async def get_user_favorites(session_cookie: SessionCookie):
     except Exception as e:
         logging.error(f"Error retrieving user favorites: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
+    
+# Snapshot Calls
+@app.post("/snapshot/upload")  # Upload a snapshot
+async def upload_snapshot_endpoint(snapshot: UploadSnapshot):
+    try:
+        if is_session_cookie_valid(snapshot.session_cookie):
+            # Save the file
+            with open("snapshot.csv", "wb") as file_object:
+                file_object.write(snapshot.file.file.read())
 
+            # Upload the snapshot
+            upload_snapshot("snapshot.csv")
+
+            logging.info("Snapshot uploaded successfully")
+            return {"message": "Snapshot uploaded successfully."}
+        else:
+            logging.warning("Invalid or expired session cookie for uploading snapshot")
+            raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
+    except Exception as e:
+        logging.error(f"Error uploading snapshot: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
+# Run the app
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

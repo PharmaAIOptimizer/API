@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from fastapi import File, UploadFile
 
 # Define Pydantic models for data validation
 class UserCreate(BaseModel):
@@ -35,3 +36,7 @@ class DrugReplacements(BaseModel):
 class Favorite(BaseModel):
     session_cookie: str
     history_id: int
+
+class UploadSnapshot(BaseModel):
+    session_cookie: str
+    file: UploadFile = File(...)
