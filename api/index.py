@@ -23,6 +23,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/api/python")
+def hello_world():
+    return {"message": "Hello World"}
+
 # Setup
 @app.get("/api/test")
 async def test():
@@ -30,13 +34,13 @@ async def test():
     return "Hello World!"
 
 # Hello World Call
-@app.get("/")
+@app.get("/api")
 async def hello_world():
     logging.info("Accessed the root endpoint")
     return {"about": "Welcome to PAPO API! -- See /documentation for more details"}
 
 # User Calls (CRUD Operations)
-@app.post("/user/create")  # Creating a new user
+@app.post("/api/user/create")  # Creating a new user
 async def create_new_user(user: UserCreate):
     try:
         create_user(
@@ -53,7 +57,7 @@ async def create_new_user(user: UserCreate):
         logging.error(f"Error creating user {user.username}: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
-@app.get("/user/get")  # Getting user by ID or username
+@app.get("/api/user/get")  # Getting user by ID or username
 async def get_user(get_user: GetUser):
     try:
         if get_user.username:
@@ -80,7 +84,7 @@ async def get_user(get_user: GetUser):
         raise HTTPException(status_code=500, detail="Internal server error")
     
     
-@app.delete("/user/delete")  # Deleting a user by ID
+@app.delete("/api/user/delete")  # Deleting a user by ID
 async def delete_user_endpoint(delete_user_request: DeleteUser):
     try:
         user_id = delete_user_request.id
@@ -102,7 +106,7 @@ async def delete_user_endpoint(delete_user_request: DeleteUser):
 
 
 # Login Calls
-@app.post("/session/login")  # Login function
+@app.post("/api/session/login")  # Login function
 async def user_login(login_data: Login):
     try:
         login_result = login(login_data.username, login_data.password)
@@ -117,7 +121,7 @@ async def user_login(login_data: Login):
         logging.error(f"Error during login: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
-@app.post("/session/is_session_cookie_valid")  # Check if the session cookie is valid
+@app.post("/api/session/is_session_cookie_valid")  # Check if the session cookie is valid
 async def check_session_cookie(session_cookie: SessionCookie):
     if is_session_cookie_valid(session_cookie.session_cookie):
         logging.info("Session cookie validated successfully")
@@ -126,7 +130,7 @@ async def check_session_cookie(session_cookie: SessionCookie):
         logging.warning("Invalid or expired session cookie")
         raise HTTPException(status_code=401, detail="Session cookie is invalid or expired.")
     
-@app.post("/session/logout")  # Logout function
+@app.post("/api/session/logout")  # Logout function
 async def user_logout(session_cookie: SessionCookie):
     try:
         if is_session_cookie_valid(session_cookie.session_cookie):
@@ -141,7 +145,7 @@ async def user_logout(session_cookie: SessionCookie):
         raise HTTPException(status_code=500, detail="Internal server error")
     
 # Drug Calls
-@app.post("/drugs/replacements")  # Upload a file
+@app.post("/api/drugs/replacements")  # Upload a file
 async def get_drug_replacements(drug_replacements: DrugReplacements):
     try:
         if is_session_cookie_valid(drug_replacements.session_cookie):
@@ -161,7 +165,7 @@ async def get_drug_replacements(drug_replacements: DrugReplacements):
         raise HTTPException(status_code=500, detail="Internal server error")
     
 # History Calls
-@app.post("/history/get")  # Get the history of a user
+@app.post("/api/history/get")  # Get the history of a user
 async def get_user_history(session_cookie: SessionCookie):
     try:
         if is_session_cookie_valid(session_cookie.session_cookie):
@@ -175,7 +179,7 @@ async def get_user_history(session_cookie: SessionCookie):
         logging.error(f"Error retrieving user history: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
     
-@app.post("/history/add_to_favorites")  # Add a history item to favorites
+@app.post("/api/history/add_to_favorites")  # Add a history item to favorites
 async def add_to_favorites(favorite_data: Favorite):
     try:
         if is_session_cookie_valid(favorite_data.session_cookie):
@@ -189,7 +193,7 @@ async def add_to_favorites(favorite_data: Favorite):
         logging.error(f"Error adding item to favorites: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
     
-@app.post("/history/remove_from_favorites")  # Remove a history item from favorites
+@app.post("/api/history/remove_from_favorites")  # Remove a history item from favorites
 async def remove_from_favorites(favorite_data: Favorite):
     try:
         if is_session_cookie_valid(favorite_data.session_cookie):
@@ -203,7 +207,7 @@ async def remove_from_favorites(favorite_data: Favorite):
         logging.error(f"Error removing item from favorites: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
     
-@app.post("/history/get_favorites")  # Get the favorites of a user
+@app.post("/api/history/get_favorites")  # Get the favorites of a user
 async def get_user_favorites(session_cookie: SessionCookie):
     try:
         if is_session_cookie_valid(session_cookie.session_cookie):
@@ -218,7 +222,7 @@ async def get_user_favorites(session_cookie: SessionCookie):
         raise HTTPException(status_code=500, detail="Internal server error")
     
 # Snapshot Calls
-@app.post("/snapshot/upload")  # Upload a snapshot
+@app.post("/api/snapshot/upload")  # Upload a snapshot
 async def upload_snapshot_endpoint(snapshot: UploadSnapshot):
     try:
         if is_session_cookie_valid(snapshot.session_cookie):
@@ -239,10 +243,10 @@ async def upload_snapshot_endpoint(snapshot: UploadSnapshot):
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
-# Run the app
-if __name__ == '__main__':
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# # Run the app
+# if __name__ == '__main__':
+#     import uvicorn
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
 
-    # uvicorn.run(app, host="127.0.0.1", port=8000)
+#     # uvicorn.run(app, host="127.0.0.1", port=8000)
     
