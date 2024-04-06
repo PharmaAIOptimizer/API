@@ -15616,3 +15616,4 @@ LINE 1: ...ber, w_1, w_2, w_3, results, favorite, timestamp, isMultiple...
 2024-04-05 21:27:48,761 - root - INFO - User favorites retrieved successfully
 2024-04-05 21:27:48,865 - root - INFO - User favorites retrieved successfully
 2024-04-05 21:27:48,969 - root - INFO - User favorites retrieved successfully
+2024-04-06 01:56:23,843 - root - INFO - Accessed the root endpoint
