@@ -7,7 +7,7 @@ from userFunctions import create_user, get_user_data_by_name, get_user_data_by_i
 from loginFunctions import login, is_session_cookie_valid, logout
 from replacmentsFunctions import replacements
 from historyFunctions import getHistory, addToFavorites, removeFromFavorites, getFavorites
-from s3Functions import upload_snapshot
+from s3Functions import upload_snapshot, decode_file
 
 # Setup logging
 logging.basicConfig(filename='backend.log', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -222,10 +222,9 @@ async def get_user_favorites(session_cookie: SessionCookie):
 async def upload_snapshot_endpoint(snapshot: UploadSnapshot):
     try:
         if is_session_cookie_valid(snapshot.session_cookie):
-            # Save the file
-            with open("snapshot.csv", "wb") as file_object:
-                file_object.write(snapshot.file.file.read())
-
+            # Decode the base64 string and save the snapshot
+            decode_file(snapshot.file)
+            
             # Upload the snapshot
             upload_snapshot("snapshot.csv")
 

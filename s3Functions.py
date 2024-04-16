@@ -1,5 +1,6 @@
 import boto3
 import re
+import base64
 
 def upload_file(file_name, bucket, object_name=None):
     """
@@ -83,6 +84,11 @@ def find_object_with_highest_number(bucket_name):
     
     return object_with_max_number
 
+def decode_file(base64_string):
+    # Decode the base64 string and save the snapshot
+    with open('snapshot.csv', 'wb') as file:
+        file.write(base64.b64decode(base64_string))
+
 def upload_snapshot(file_name):
     # Get the latest snapshot number
     object_name = find_object_with_highest_number('dailysupplysnapshot')
@@ -130,3 +136,5 @@ def upload_snapshot(file_name):
 #     print(f"The object with the highest number: {highest_number_object}")
 # else:
 #     print("No objects found or no numeric endings detected.")
+
+# decode_file('SXRlbSBOdW1iZXIg4oCTIDYgZGlnaXQsTkRDIE51bWJlcixVUEMgTnVtYmVyLENvbnN0YW50LEN1c3RvbWVyLVNwZWNpZmljIEl0ZW0gTnVtYmVyLERlc2NyaXB0aW9uLFBhY2sgU2l6ZSBEaXZpc29yLFNpemUgUXR5LFJYL09UQyBJbmRpY2F0b3IsQVdQIFByaWNlLEFjcXVpc2l0aW9uIFByaWNlLFJldGFpbCBQcmljZSxDb250cmFjdCBGbGFnLEdlbmVyaWMgRGVzY3JpcHRpb24sUmV0YWlsIFBhY2sgUXVhbnRpdHksV0FDIFByaWNlLEl0ZW0gTnVtYmVyIOKAkyA4IGRpZ2l0CjAwMTEzOTAsNDExNjc0MzEwMDIsMDQxMTY3NDMxMDIzLCAgICAgICAgICAgICAgICAgICAgICAgICwgICAgICAgICAgLEFMTEVHUkEgRCAxMkhSIDYwTUcgQ0FQTEVUIDEwQywwMDAwMDAxMDAwMCwxMCAgICAgICxPLDAwMDAwMDE4NjYsMDAwMDAwMTE3MywwMDAwMDAxNzYwLE4sZmV4b2ZlbmFkaW5lL3BzZXVkb2VwaGVkcmluZSBPLDAwMDAxLDAwMDAwMDEwNjYsMTAwODQ5MTYKMDAxMTM5NSw0MTE2NzQzMTAwNCwwNDExNjc0MzEwNDcsICAgICAgICAgICAgICAgICAgICAgICAgLCAgICAgICAgICAsQUxMRUdSQSBEIDEySFIgNjBNRyBDQVBMRVQgMjBDLDAwMDAwMDIwMDAwLDIwICAgICAgLE8sMDAwMDAwMjc2MiwwMDAwMDAxNzM2LDAwMDAwMDI2MDQsTixmZXhvZmVuYWRpbmUvcHNldWRvZXBoZWRyaW5lIE8sMDAwMDEsMDAwMDAwMTU3OCwxMDA4NDkxNwowMDExNDIxLDQxMTY3NDMyMDA1LDA0MTE2NzQzMjA1MSwgICAgICAgICAgICAgICAgICAgICAgICAsICAgICAgICAgICxBTExFR1JBIEQgMjRIUiAxODBNRyBUQUJMRVQgMTAsMDAwMDAwMTAwMDAsMTAgICAgICAsTywwMDAwMDAyMTE2LDAwMDAwMDEzMzAsMDAwMDAwMTk5NSxOLGZleG9mZW5hZGluZS9wc2V1ZG9lcGhlZHJpbmUgTywwMDAwMSwwMDAwMDAxMjA5LDEwMDg0OTE5')
