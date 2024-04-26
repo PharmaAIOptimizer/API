@@ -9,6 +9,8 @@ from replacmentsFunctions import replacements
 from historyFunctions import getHistory, addToFavorites, removeFromFavorites, getFavorites
 from s3Functions import upload_snapshot, decode_file
 
+import pandas as pd
+
 # Setup logging
 logging.basicConfig(filename='backend.log', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
@@ -237,6 +239,27 @@ async def upload_snapshot_endpoint(snapshot: UploadSnapshot):
         logging.error(f"Error uploading snapshot: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
+@app.post("/snapshot/upload2")
+async def upload_file(file: UploadFile = File(...)):
+    if not file.filename.endswith(".csv"):
+        raise HTTPException(status_code=400, detail="Invalid file type, expected CSV")
+    
+    try:
+        # Read the content of the file into a DataFrame
+        df = pd.read_csv(file.file)
+
+        # Define the path to save the file
+        save_path = f"./{file.filename}"
+
+        # Save the CSV file to the current directory
+        df.to_csv(save_path, index=False)
+
+        return {"message": "File uploaded successfully", "filename": file.filename}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        await file.close()
 
 # Run the app
 if __name__ == '__main__':
